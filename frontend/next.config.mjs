@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    optimizePackageImports: [],
-  },
+  allowedDevOrigins: ["*.e2b.app", "*.e2b.dev", "*.amazonaws.com", "*.cloudfront.net"],
   async headers() {
     return [
       {

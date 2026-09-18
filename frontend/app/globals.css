@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PERSONAL OS — DESIGN TOKENS (single source of truth)
+   Change theme/colors here only. All components use these.
+   ============================================================ */
+:root {
+  /* primitive: neutral ramp */
+  --n-0: #ffffff;  --n-25: #F9FAFC; --n-50: #F4F6FA; --n-100: #EDF0F7;
+  --n-200: #E2E6F0; --n-300: #CBD3E3; --n-400: #9AA5BE; --n-500: #5F6A86;
+  --n-600: #4C5872; --n-700: #333F58; --n-800: #1B2537; --n-900: #0F1729;
+  /* primitive: indigo brand */
+  --i-50: #EFF0FF; --i-100: #E0E2FF; --i-300: #B4B3FB; --i-500: #5B52E8;
+  --i-600: #4F46E5; --i-700: #4338CA; --i-800: #372FAC;
+  /* primitive: semantic hues */
+  --amber-50: #FEF2E4; --amber-600: #B45813; --amber-700: #8E4408;
+  --green-50: #DFF5EC; --green-600: #0B6B4F; --green-700: #075441;
+  --blue-50: #E8F0FE;  --blue-600: #24509B; --blue-700: #1B3D78;
+  --violet-50: #F2EBFF; --violet-600: #5B3AA6; --violet-700: #472C86;
+  --rose-50: #FDECEC;  --rose-600: #A5282C; --rose-700: #852025;
+
+  /* semantic: light — calm premium */
+  --bg: var(--n-50);
+  --surface: var(--n-0);
+  --surface-2: var(--n-25);
+  --surface-3: var(--n-100);
+  --border: var(--n-200);
+  --border-strong: var(--n-300);
+  --text-1: var(--n-900);
+  --text-2: var(--n-600);
+  --text-3: var(--n-500);
+  --brand: var(--i-600);
+  --brand-hover: var(--i-700);
+  --brand-tint: var(--i-50);
+  --brand-tint-2: var(--i-100);
+  --on-brand: #ffffff;
+  --focus: #4F46E5;
+  --brand-ink: var(--i-700);
+  --avatar-fg: var(--i-700);
+
+  --c-attention-bg: var(--amber-50); --c-attention-fg: var(--amber-700);
+  --c-done-bg: var(--green-50);      --c-done-fg: var(--green-700);
+  --c-info-bg: var(--blue-50);       --c-info-fg: var(--blue-700);
+  --c-watch-bg: var(--violet-50);    --c-watch-fg: var(--violet-700);
+  --c-danger-bg: var(--rose-50);     --c-danger-fg: var(--rose-700);
+  --c-neutral-bg: var(--n-100);      --c-neutral-fg: var(--n-700);
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px;
+  --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; --r-full: 999px;
+  --e1: 0 1px 2px rgba(15,23,41,.04), 0 1px 3px rgba(15,23,41,.06);
+  --e2: 0 6px 16px -4px rgba(15,23,41,.10), 0 2px 6px -2px rgba(15,23,41,.06);
+  --e3: 0 18px 44px -14px rgba(15,23,41,.22), 0 4px 12px -4px rgba(15,23,41,.08);
+  --e-brand: 0 8px 20px -8px rgba(79,70,229,.55);
+  --t-fast: 120ms; --t-base: 180ms; --t-slow: 260ms;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+[data-theme="dark"] {
+  --bg: #0D1220;
+  --surface: #151C2B;
+  --surface-2: #1A2233;
+  --surface-3: #232E44;
+  --border: #263048;
+  --border-strong: #35415C;
+  --text-1: #EEF1F8;
+  --text-2: #A7B1C6;
+  --text-3: #8B97AF;
+  --brand: #7B74FF;
+  --brand-hover: #8F89FF;
+  --brand-tint: #211F45;
+  --brand-tint-2: #2A2760;
+  --on-brand: #0D1220;
+  --focus: #9B95FF;
+  --brand-ink: #C6C3FF;
+  --avatar-fg: #C9C6FF;
+  --c-attention-bg: #3A2A12; --c-attention-fg: #F0B173;
+  --c-done-bg: #0E2E26;      --c-done-fg: #6FD8B4;
+  --c-info-bg: #122744;      --c-info-fg: #8FBBF5;
+  --c-watch-bg: #271F45;     --c-watch-fg: #BFA6F5;
+  --c-danger-bg: #3A1D20;    --c-danger-fg: #F0a3a6;
+  --c-neutral-bg: #232E44;   --c-neutral-fg: #C3CBDC;
+  --e1: 0 1px 2px rgba(0,0,0,.30);
+  --e2: 0 8px 20px -6px rgba(0,0,0,.45);
+  --e3: 0 22px 50px -16px rgba(0,0,0,.60);
+  --e-brand: 0 8px 20px -8px rgba(123,116,255,.40);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-tint-2: var(--brand-tint-2);
+  --color-on-brand: var(--on-brand);
+  --color-focus: var(--focus);
+  --color-attention-bg: var(--c-attention-bg);
+  --color-attention-fg: var(--c-attention-fg);
+  --color-done-bg: var(--c-done-bg);
+  --color-done-fg: var(--c-done-fg);
+  --color-info-bg: var(--c-info-bg);
+  --color-info-fg: var(--c-info-fg);
+  --color-watch-bg: var(--c-watch-bg);
+  --color-watch-fg: var(--c-watch-fg);
+  --color-danger-bg: var(--c-danger-bg);
+  --color-danger-fg: var(--c-danger-fg);
+  --color-neutral-bg: var(--c-neutral-bg);
+  --color-neutral-fg: var(--c-neutral-fg);
+  --radius-xs: var(--r-xs);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+  --font-sans: var(--font);
+  --shadow-e1: var(--e1);
+  --shadow-e2: var(--e2);
+  --shadow-e3: var(--e3);
+  --shadow-brand: var(--e-brand);
+}
+
+/* base */
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) var(--bg); }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--focus);
+  border-radius: var(--r-xs);
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* custom utilities not in tailwind */
+.shimmer {
+  background: linear-gradient(90deg, var(--surface-3) 25%, var(--n-25) 37%, var(--surface-3) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+[data-theme="dark"] .shimmer {
+  background: linear-gradient(90deg, var(--surface-3) 25%, #2C3852 37%, var(--surface-3) 63%);
+  background-size: 400% 100%;
+}
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* scrollbar hide */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

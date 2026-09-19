@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: pos-postgres
+    environment:
+      POSTGRES_USER: pos
+      POSTGRES_PASSWORD: pos
+      POSTGRES_DB: pos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pos"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pos-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://pos:pos@postgres:5432/pos
+      DATABASE_SYNC_URL: postgresql://pos:pos@postgres:5432/pos
+      JWT_SECRET: dev-secret-change-in-prod
+      FRONTEND_URL: http://localhost:3000
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:

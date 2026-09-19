@@ -1,5 +1,27 @@
 # LEARNED — Running log of bugs and fixes
 
+## Backend Phase 1
+
+### 2026-09-18 — Next.js 15.5.25 webpack __webpack_modules__[moduleId] is not a function
+- **Symptom**: Runtime TypeError `__webpack_modules__[moduleId] is not a function` + `SegmentViewNode in React Client Manifest` + `Cannot find module './403.js'` in .next/server/webpack-runtime.js
+- **Cause**: `package.json` had `"next": "^15.1.6"` which npm resolved to 15.5.25 (latest 15.x). 15.5.25 has RSC bundler bug with React 19. Stale `.next` from old version also caused 403.js missing.
+- **Fix**: Pin exact versions `"next": "15.1.7"`, `"tailwindcss": "4.0.14"`, remove `allowedDevOrigins` (not in 15.1.x), always `rm -rf .next` after version change. Build now green, dev 200.
+
+### 2026-09-18 — Pydantic EmailStr needs email-validator
+- **Symptom**: `ImportError: email-validator is not installed` on app import
+- **Cause**: Pydantic v2 EmailStr requires `email-validator` package, not included by default
+- **Fix**: Added `pydantic[email]` and `email-validator` to pyproject.toml dependencies
+
+### 2026-09-18 — Hatchling wheel build fails without packages
+- **Symptom**: `pip install -e .` failed `Unable to determine which files to ship inside the wheel`
+- **Cause**: Project name `personal-os-backend` doesn't match directory `app`, hatch can't infer packages
+- **Fix**: Added `[tool.hatch.build.targets.wheel] packages = ["app"]` to pyproject.toml
+
+### 2026-09-18 — No Docker/Postgres in sandbox
+- **Symptom**: Tests requiring real Postgres skipped, docker not found, apt can't install postgres-17
+- **Cause**: Sandbox has no docker, no pgvector image, no apt postgres
+- **Fix**: conftest tries testcontainers first, falls back to TEST_DATABASE_URL, else pytest.skip. Documented that integration tests need `docker-compose up postgres`. Unit tests (argon2) still run.
+
 ## Frontend Phase
 
 ### 2026-09-18 — useSearchParams needs Suspense in Next 15
